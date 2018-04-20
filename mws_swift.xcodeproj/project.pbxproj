@@ -13,6 +13,7 @@
 		A685E3B72089523700F37EFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A685E3B62089523700F37EFD /* Assets.xcassets */; };
 		A685E3BA2089523700F37EFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A685E3B82089523700F37EFD /* LaunchScreen.storyboard */; };
 		A685E3C2208953CF00F37EFD /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A685E3C1208953CF00F37EFD /* HomeVC.swift */; };
+		A6D21F63208A553100C7D6BB /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D21F62208A553100C7D6BB /* DataModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		A685E3B92089523700F37EFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A685E3BB2089523700F37EFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A685E3C1208953CF00F37EFD /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		A6D21F62208A553100C7D6BB /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			children = (
 				A685E3AC2089523700F37EFD /* AppDelegate.swift */,
 				A685E3C1208953CF00F37EFD /* HomeVC.swift */,
+				A6D21F62208A553100C7D6BB /* DataModel.swift */,
 				A685E3B02089523700F37EFD /* Main.storyboard */,
 				A685E3B62089523700F37EFD /* Assets.xcassets */,
 				A685E3B82089523700F37EFD /* LaunchScreen.storyboard */,
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A685E3C2208953CF00F37EFD /* HomeVC.swift in Sources */,
+				A6D21F63208A553100C7D6BB /* DataModel.swift in Sources */,
 				A685E3B52089523700F37EFD /* mws_swift.xcdatamodeld in Sources */,
 				A685E3AD2089523700F37EFD /* AppDelegate.swift in Sources */,
 			);
