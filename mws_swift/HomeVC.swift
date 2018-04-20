@@ -11,14 +11,18 @@ import UIKit
 class HomeVC: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    var tableData = SchoolModel.shared.getAll()
     
+    var tableData = SchoolModel.shared.getAll()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-        seedData()
+        
+        if tableData.count == 0 {
+            seedData()
+        }
+
     }
     
     func seedData() {
