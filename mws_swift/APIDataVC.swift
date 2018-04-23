@@ -22,7 +22,6 @@ class APIDataVC: UIViewController {
                 if let jsonResult = try JSONSerialization.jsonObject( with: data!, options: JSONSerialization.ReadingOptions.mutableContainers ) as? NSArray {
                     for school in jsonResult {
                         let schoolDict = school as! NSDictionary
-                        print( schoolDict )                        
                         self.tableData.append( schoolDict["title"]! as! String )
                     }
                 }

@@ -19,9 +19,11 @@ class HomeVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
+        APISyncController.incrementalSync()
+        
         if tableData.count == 0 {
-//            seedData()
-//            APIDataVC.initialSync()
+            APISyncController.initialSync()
+            tableView.reloadData()
         }
 
     }

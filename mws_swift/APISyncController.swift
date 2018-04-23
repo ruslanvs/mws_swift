@@ -8,6 +8,29 @@
 
 import Foundation
 
-//let s = School()
-//s.title = (schoolDict["title"] as! String)
-//s.id = (schoolDict["id"] as! String)
+class APISyncController {
+    
+    static func initialSync(){
+        APIInterface.getAllSchools(completionHandler: {
+            data, response, error in do {
+                if let jsonResult = try JSONSerialization.jsonObject( with: data!, options: JSONSerialization.ReadingOptions.mutableContainers ) as? NSArray {
+                    for school in jsonResult {
+                        let schoolDict = school as! NSDictionary
+                        print( schoolDict )
+                        let title = (schoolDict["title"] as! String)
+                        let id = (schoolDict["id"] as! String)
+                        SchoolModel.shared.create( title: title, id: id )
+                    }
+                }
+            } catch {
+                print( "something went wrong" )
+            }
+        })
+
+    }
+    
+    static func incrementalSync(){
+        
+    }
+    
+}
