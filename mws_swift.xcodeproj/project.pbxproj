@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A656FCA7208D700A0032357F /* APIDataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A656FCA6208D700A0032357F /* APIDataVC.swift */; };
+		A656FCA9208D7F1D0032357F /* APIInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = A656FCA8208D7F1D0032357F /* APIInterface.swift */; };
 		A685E3AD2089523700F37EFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A685E3AC2089523700F37EFD /* AppDelegate.swift */; };
 		A685E3B22089523700F37EFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A685E3B02089523700F37EFD /* Main.storyboard */; };
 		A685E3B52089523700F37EFD /* mws_swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A685E3B32089523700F37EFD /* mws_swift.xcdatamodeld */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A656FCA6208D700A0032357F /* APIDataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDataVC.swift; sourceTree = "<group>"; };
+		A656FCA8208D7F1D0032357F /* APIInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIInterface.swift; sourceTree = "<group>"; };
 		A685E3A92089523700F37EFD /* mws_swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mws_swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A685E3AC2089523700F37EFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A685E3B12089523700F37EFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -62,10 +66,12 @@
 				A685E3C1208953CF00F37EFD /* HomeVC.swift */,
 				A6D21F62208A553100C7D6BB /* DataModel.swift */,
 				A685E3B02089523700F37EFD /* Main.storyboard */,
+				A656FCA8208D7F1D0032357F /* APIInterface.swift */,
 				A685E3B62089523700F37EFD /* Assets.xcassets */,
 				A685E3B82089523700F37EFD /* LaunchScreen.storyboard */,
 				A685E3BB2089523700F37EFD /* Info.plist */,
 				A685E3B32089523700F37EFD /* mws_swift.xcdatamodeld */,
+				A656FCA6208D700A0032357F /* APIDataVC.swift */,
 			);
 			path = mws_swift;
 			sourceTree = "<group>";
@@ -145,6 +151,8 @@
 				A6D21F63208A553100C7D6BB /* DataModel.swift in Sources */,
 				A685E3B52089523700F37EFD /* mws_swift.xcdatamodeld in Sources */,
 				A685E3AD2089523700F37EFD /* AppDelegate.swift in Sources */,
+				A656FCA9208D7F1D0032357F /* APIInterface.swift in Sources */,
+				A656FCA7208D700A0032357F /* APIDataVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

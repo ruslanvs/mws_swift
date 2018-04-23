@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cv3-1m-LTW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vaX-vt-tt4">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--HomeVC-->
+        <!--Core Data-->
         <scene sceneID="EIv-p7-eN8">
             <objects>
                 <viewController id="cv3-1m-LTW" customClass="HomeVC" customModule="mws_swift" customModuleProvider="target" sceneMemberID="viewController">
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="O8X-gp-E0j">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="598"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HomeTableCell" id="Hmx-xw-wh2">
@@ -42,13 +42,76 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YJn-HJ-zYa"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Core Data" image="icons8-square-90" id="FDN-qz-PYU"/>
                     <connections>
                         <outlet property="tableView" destination="O8X-gp-E0j" id="fbt-IK-JBC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KgT-E5-do9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="169" y="108"/>
+            <point key="canvasLocation" x="1108" y="107.49625187406298"/>
+        </scene>
+        <!--API-->
+        <scene sceneID="PeT-cp-ND2">
+            <objects>
+                <viewController id="Lr8-30-MfJ" customClass="APIDataVC" customModule="mws_swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IJu-pg-VOZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zPQ-aL-oVC">
+                                <rect key="frame" x="0.0" y="20" width="375" height="598"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="APITableCell" id="k5F-c8-Nzs">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="k5F-c8-Nzs" id="dWU-6a-csi">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Uue-jL-RwR" firstAttribute="trailing" secondItem="zPQ-aL-oVC" secondAttribute="trailing" id="02D-F6-L8m"/>
+                            <constraint firstItem="Uue-jL-RwR" firstAttribute="bottom" secondItem="zPQ-aL-oVC" secondAttribute="bottom" id="Q8M-KR-XAY"/>
+                            <constraint firstItem="zPQ-aL-oVC" firstAttribute="leading" secondItem="Uue-jL-RwR" secondAttribute="leading" id="W3u-Gk-TZj"/>
+                            <constraint firstItem="zPQ-aL-oVC" firstAttribute="top" secondItem="Uue-jL-RwR" secondAttribute="top" id="fwH-5c-ugc"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Uue-jL-RwR"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="API" image="icons8-square-90" id="uFL-xd-AJa"/>
+                    <connections>
+                        <outlet property="tableView" destination="zPQ-aL-oVC" id="Jtt-ry-9lz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SUI-eU-56P" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1108" y="813"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="Zi1-KB-ADe">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="vaX-vt-tt4" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iUu-uT-jQZ">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="cv3-1m-LTW" kind="relationship" relationship="viewControllers" id="khW-9Q-7MN"/>
+                        <segue destination="Lr8-30-MfJ" kind="relationship" relationship="viewControllers" id="Mmk-9Z-fC5"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wfR-6k-eMr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="168.80000000000001" y="107.49625187406298"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icons8-square-90" width="30" height="30"/>
+    </resources>
 </document>
