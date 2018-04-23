@@ -27,11 +27,27 @@ class SchoolModel {
         
     }
     
-    func create( title: String ) -> School {
+    func create( title: String, id: String ) -> School {
         let item = NSEntityDescription.insertNewObject(forEntityName: "School", into: managedObjectContext ) as! School
         item.title = title
+        item.id = id
         saveContext()
         return item
+    }
+    
+    func update( item: School, title: String?, id: String? ) {
+        if let title = title {
+            item.title = title
+        }
+        if let id = id {
+            item.id = id
+        }
+        saveContext()
+    }
+    
+    func delete( item: School ) {
+        managedObjectContext.delete( item )
+        saveContext()
     }
     
     func saveContext() {

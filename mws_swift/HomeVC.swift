@@ -20,18 +20,19 @@ class HomeVC: UIViewController {
         tableView.delegate = self
         
         if tableData.count == 0 {
-            seedData()
+//            seedData()
+//            APIDataVC.initialSync()
         }
 
     }
     
-    func seedData() {
-        let schoolTitles = ["Hogwarts", "Beauxbatons", "Castelobruxo", "Durmstrang Institute", "Ilvermorny"]
-        for title in schoolTitles {
-            SchoolModel.shared.create(title: title)
-        }
-        tableData = SchoolModel.shared.getAll()
-    }
+//    func seedData() {
+//        let schoolTitles = ["Hogwarts", "Beauxbatons", "Castelobruxo", "Durmstrang Institute", "Ilvermorny"]
+//        for title in schoolTitles {
+//            SchoolModel.shared.create(title: title)
+//        }
+//        tableData = SchoolModel.shared.getAll()
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

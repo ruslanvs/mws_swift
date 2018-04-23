@@ -19,12 +19,11 @@ class APIDataVC: UIViewController {
         
         APIInterface.getAllSchools(completionHandler: {
             data, response, error in do {
-                if let jsonResult = try JSONSerialization.jsonObject( with: data!, options: JSONSerialization.ReadingOptions.mutableContainers ) as? NSDictionary {
-                    if let results = jsonResult["results"] as? NSArray {
-                        for school in results {
-                            let schoolDict = school as! NSDictionary
-                            self.tableData.append( schoolDict["title"]! as! String )
-                        }
+                if let jsonResult = try JSONSerialization.jsonObject( with: data!, options: JSONSerialization.ReadingOptions.mutableContainers ) as? NSArray {
+                    for school in jsonResult {
+                        let schoolDict = school as! NSDictionary
+                        print( schoolDict )                        
+                        self.tableData.append( schoolDict["title"]! as! String )
                     }
                 }
                 DispatchQueue.main.async {
