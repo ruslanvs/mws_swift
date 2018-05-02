@@ -8,25 +8,41 @@
 
 import Foundation
 
+struct jsonDecodedSchool: Decodable {
+    let id: UUID
+    let title: String
+    let created_at: Date
+    let updated_at: Date
+}
+
 class APISyncController {
     
     static func initialSync(){
-        APIInterface.getAllSchools(completionHandler: {
-            data, response, error in do {
-                if let jsonResult = try JSONSerialization.jsonObject( with: data!, options: JSONSerialization.ReadingOptions.mutableContainers ) as? NSArray {
-                    for school in jsonResult {
-                        let schoolDict = school as! NSDictionary
-                        print( schoolDict )
-                        let title = (schoolDict["title"] as! String)
-                        let id = (schoolDict["id"] as! String)
-                        SchoolModel.shared.create( title: title, id: id )
-                    }
+        
+        let urlString = "http://localhost:8000/schools"
+        guard let url = URL(string: urlString) else { return }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, err) in
+            print( "we are in the" )
+            guard let data = data else { return }
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSZ"
+            let schoolsDecoder = JSONDecoder()
+            schoolsDecoder.dateDecodingStrategy = .formatted(dateFormatter)
+            
+            do {
+                let schools = try
+                schoolsDecoder.decode([jsonDecodedSchool].self, from: data)
+                
+                for school in schools {
+                    SchoolModel.shared.create( title: school.title, id: school.id, created_at: school.created_at, updated_at: school.updated_at )
                 }
-            } catch {
-                print( "something went wrong" )
+            } catch let jsonDecodingErr {
+                print( "JSON parsing error:", jsonDecodingErr )
             }
-        })
-
+        }.resume()
+        
     }
     
     static func incrementalSync(){
