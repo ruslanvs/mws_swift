@@ -27,6 +27,22 @@ class SchoolModel {
         
     }
     
+    func getLastUpdatedAt() -> Date {
+        let request = NSFetchRequest<NSFetchRequestResult>( entityName: "School" )
+        let sortDescriptor = NSSortDescriptor( key: "updated_at", ascending: false )
+        request.sortDescriptors = [sortDescriptor]
+        request.fetchLimit = 1
+        
+        do {
+            let school = try managedObjectContext.fetch( request ) as! [School]
+//            print (school[0].updated_at as Any)
+            return school[0].updated_at!
+        } catch {
+            print ( error )
+            return Date()
+        }
+    }
+    
     func create( title: String, id: UUID, created_at: Date, updated_at: Date ) -> School {
         print( "create" )
         let item = NSEntityDescription.insertNewObject(forEntityName: "School", into: managedObjectContext ) as! School

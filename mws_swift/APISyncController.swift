@@ -23,7 +23,7 @@ class APISyncController {
         guard let url = URL(string: urlString) else { return }
         
         URLSession.shared.dataTask(with: url) { (data, response, err) in
-            print( "we are in the" )
+            
             guard let data = data else { return }
             
             let dateFormatter = DateFormatter()
@@ -46,6 +46,42 @@ class APISyncController {
     }
     
     static func incrementalSync(){
+        let lastUpdatedAt = "\(SchoolModel.shared.getLastUpdatedAt())".replacingOccurrences(of: " ", with: "_")
+        print( "Incremental sync for after:", lastUpdatedAt )
+        
+        
+        let urlString = "http://localhost:8000/schools_updated_after/\(lastUpdatedAt)"
+//        let urlString = "http://localhost:8000/schools_updated_after/2018-05-02_19:30:27"
+        print( "url string:", urlString )
+        
+        guard let url = URL(string: urlString) else {
+            print ("url set error")
+            return
+        }
+        print("url set to:", url)
+        
+        URLSession.shared.dataTask(with: url) { (data, response, err) in
+            print("API request")
+            guard let data = data else {return}
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSZ"
+            let schoolsDecoder = JSONDecoder()
+            schoolsDecoder.dateDecodingStrategy = .formatted(dateFormatter)
+            
+            do {
+                let schools = try
+                    schoolsDecoder.decode([jsonDecodedSchool].self, from: data)
+                print("updates schools:", schools)
+                
+            } catch let jsonDecodingErr {
+                print( "JSON parsing error:", jsonDecodingErr )
+            }
+            
+        }.resume()
+        
+        
+        
         
     }
     
