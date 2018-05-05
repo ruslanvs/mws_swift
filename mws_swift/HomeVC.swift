@@ -19,17 +19,36 @@ class HomeVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-//        APISyncController.initialSync()
-        APISyncController.incrementalSync()
-        
         if tableData.count == 0 {
-            APISyncController.initialSync()
-            tableView.reloadData()
+            print("TableData count was 0")
+            
+            APISyncController.initialSync { () in
+                print("Completion call")
+                DispatchQueue.main.async {
+                    self.tableData = SchoolModel.shared.getAll()
+                    self.printTableData()
+                    self.tableView.reloadData()
+                }
+            }
+            
+        } else {
+            print("TableData count was NOT 0")
+            APISyncController.incrementalSync { () in
+                print("Completion call")
+                DispatchQueue.main.async {
+                    self.tableData = SchoolModel.shared.getAll()
+                    self.printTableData()
+                    self.tableView.reloadData()
+                }
+            }
         }
+    }
+    
+    func printTableData () {
+        print( "Table data content:" )
         for item in tableData {
             print( item.title, item.id, item.created_at, item.updated_at )
         }
-        
 
     }
     

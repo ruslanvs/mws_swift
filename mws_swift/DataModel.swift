@@ -35,8 +35,14 @@ class SchoolModel {
         
         do {
             let school = try managedObjectContext.fetch( request ) as! [School]
-//            print (school[0].updated_at as Any)
-            return school[0].updated_at!
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let earliestDate = dateFormatter.date(from: "2000-01-01")
+            
+            let date = school.count > 0 ? school[0].updated_at : earliestDate
+            
+            return date!
         } catch {
             print ( error )
             return Date()
@@ -54,12 +60,20 @@ class SchoolModel {
         return item
     }
     
-    func update( item: School, title: String?, id: UUID? ) {
-        if let title = title {
-            item.title = title
-        }
-        if let id = id {
-            item.id = id
+    func batchUpdateSchools( jsonSchools: [jsonDecodedSchool] ) {
+        let request = NSFetchRequest<NSFetchRequestResult>( entityName: "School" )
+        for jsonSchool in jsonSchools {
+            let predicate = NSPredicate( format: "id == %@", jsonSchool.id as CVarArg )
+            request.predicate = predicate
+            
+            do {
+                var coreDataSchool = try managedObjectContext.fetch(request) as! [School]
+                coreDataSchool[0].title = jsonSchool.title
+                coreDataSchool[0].created_at = jsonSchool.created_at
+                coreDataSchool[0].updated_at = jsonSchool.updated_at
+            } catch {
+                print ( error )
+            }
         }
         saveContext()
     }
