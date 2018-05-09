@@ -12,44 +12,29 @@ class HomeVC: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var tableData = SchoolModel.shared.getAll()
+    var tableData = SchoolModel.shared.getAllSchools( whereIsDeletedIs: false )
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.dataSource = self
         tableView.delegate = self
         
-        if tableData.count == 0 {
-            print("TableData count was 0")
-            
-            APISyncController.initialSync { () in
-                print("Completion call")
-                DispatchQueue.main.async {
-                    self.tableData = SchoolModel.shared.getAll()
-                    self.printTableData()
-                    self.tableView.reloadData()
-                }
-            }
-            
-        } else {
-            print("TableData count was NOT 0")
-            APISyncController.incrementalSync { () in
-                print("Completion call")
-                DispatchQueue.main.async {
-                    self.tableData = SchoolModel.shared.getAll()
-                    self.printTableData()
-                    self.tableView.reloadData()
-                }
+        print( "tableData count =", tableData.count )
+        APISyncController.sync { () in
+            print("Completion call")
+            DispatchQueue.main.async {
+                self.tableData = SchoolModel.shared.getAllSchools( whereIsDeletedIs: false )
+                self.tableView.reloadData()
             }
         }
     }
     
     func printTableData () {
-        print( "Table data content:" )
+        print( "Printing table data content:" )
         for item in tableData {
-            print( item.title, item.id, item.created_at, item.updated_at )
+            print( item.title, item.id, item.is_deleted, item.created_at, item.updated_at )
         }
-
     }
     
     override func didReceiveMemoryWarning() {
