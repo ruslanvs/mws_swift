@@ -8,6 +8,13 @@
 
 import Foundation
 
+struct jsonDecoded: Decodable {
+    let id: UUID
+    let is_deleted: Bool
+    let created_at: Date
+    let updated_at: Date
+}
+
 struct jsonDecodedSchool: Decodable {
     let is_deleted: Bool
     let id: UUID
@@ -19,21 +26,19 @@ struct jsonDecodedSchool: Decodable {
 class APISyncController {
     
     static func sync( completionHandler: @escaping () -> () ){
-        print( "Performing a sync" )
+        print( "Sync" )
         
-        let lastUpdatedAt = "\(SchoolModel.shared.getLastUpdatedAt())".replacingOccurrences(of: " ", with: "_")
-        print( "Last updated_at:", lastUpdatedAt )
+        let lastUpdatedAtOfSchools = "\(SchoolModel.shared.getLastUpdatedAtOfSchools())".replacingOccurrences(of: " ", with: "_")
+        print( "Last updated_at date:", lastUpdatedAtOfSchools )
         
-        let urlString = "http://localhost:8000/schools_updated_after/\(lastUpdatedAt)"
+        let urlString = "http://localhost:8000/schools_updated_after/\(lastUpdatedAtOfSchools)"
         
         guard let url = URL(string: urlString) else {
             print ("url setting error")
             return
         }
-        print("url set to:", url)
         
         URLSession.shared.dataTask(with: url) { (data, response, err) in
-            print("API request")
             guard let data = data else {return}
             
             let dateFormatter = DateFormatter()

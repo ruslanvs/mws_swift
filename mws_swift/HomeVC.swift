@@ -20,20 +20,11 @@ class HomeVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        print( "tableData count =", tableData.count )
         APISyncController.sync { () in
-            print("Completion call")
             DispatchQueue.main.async {
                 self.tableData = SchoolModel.shared.getAllSchools( whereIsDeletedIs: false )
                 self.tableView.reloadData()
             }
-        }
-    }
-    
-    func printTableData () {
-        print( "Printing table data content:" )
-        for item in tableData {
-            print( item.title, item.id, item.is_deleted, item.created_at, item.updated_at )
         }
     }
     

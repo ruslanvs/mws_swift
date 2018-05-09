@@ -38,7 +38,7 @@ class SchoolModel {
         }
     }
     
-    func getLastUpdatedAt() -> Date {
+    func getLastUpdatedAtOfSchools() -> Date {
         let request = NSFetchRequest<NSFetchRequestResult>( entityName: "School" )
         let sortDescriptor = NSSortDescriptor( key: "updated_at", ascending: false )
         request.sortDescriptors = [sortDescriptor]
