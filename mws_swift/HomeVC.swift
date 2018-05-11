@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class HomeVC: UIViewController {
 
@@ -20,12 +21,15 @@ class HomeVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        APISyncController.sync { () in
+        APISyncController.syncSchools { () in
             DispatchQueue.main.async {
                 self.tableData = SchoolModel.shared.getAllSchools( whereIsDeletedIs: false )
                 self.tableView.reloadData()
             }
         }
+        
+        print( "CoreDataInterface returned:", CoreDataInterface.shared.getAll(from: "School", entity: School.self ) )
+        
     }
     
     override func didReceiveMemoryWarning() {

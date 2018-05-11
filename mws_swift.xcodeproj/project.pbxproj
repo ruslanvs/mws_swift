@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A656FCA9208D7F1D0032357F /* APIInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = A656FCA8208D7F1D0032357F /* APIInterface.swift */; };
 		A656FCAB208D98300032357F /* APISyncController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A656FCAA208D98300032357F /* APISyncController.swift */; };
+		A67CFC0820A5314D00456CA5 /* CoreDataInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67CFC0720A5314D00456CA5 /* CoreDataInterface.swift */; };
 		A685E3AD2089523700F37EFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A685E3AC2089523700F37EFD /* AppDelegate.swift */; };
 		A685E3B22089523700F37EFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A685E3B02089523700F37EFD /* Main.storyboard */; };
 		A685E3B52089523700F37EFD /* mws_swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A685E3B32089523700F37EFD /* mws_swift.xcdatamodeld */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		A656FCA8208D7F1D0032357F /* APIInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIInterface.swift; sourceTree = "<group>"; };
 		A656FCAA208D98300032357F /* APISyncController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISyncController.swift; sourceTree = "<group>"; };
+		A67CFC0720A5314D00456CA5 /* CoreDataInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataInterface.swift; sourceTree = "<group>"; };
 		A685E3A92089523700F37EFD /* mws_swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mws_swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A685E3AC2089523700F37EFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A685E3B12089523700F37EFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 		A685E3AB2089523700F37EFD /* mws_swift */ = {
 			isa = PBXGroup;
 			children = (
+				A67CFC0720A5314D00456CA5 /* CoreDataInterface.swift */,
 				A656FCAA208D98300032357F /* APISyncController.swift */,
 				A685E3AC2089523700F37EFD /* AppDelegate.swift */,
 				A685E3C1208953CF00F37EFD /* HomeVC.swift */,
@@ -149,6 +152,7 @@
 			files = (
 				A656FCAB208D98300032357F /* APISyncController.swift in Sources */,
 				A685E3C2208953CF00F37EFD /* HomeVC.swift in Sources */,
+				A67CFC0820A5314D00456CA5 /* CoreDataInterface.swift in Sources */,
 				A6D21F63208A553100C7D6BB /* DataModel.swift in Sources */,
 				A685E3B52089523700F37EFD /* mws_swift.xcdatamodeld in Sources */,
 				A685E3AD2089523700F37EFD /* AppDelegate.swift in Sources */,

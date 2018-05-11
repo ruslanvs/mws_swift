@@ -24,12 +24,6 @@ class SchoolModel {
             request.predicate = predicate
         }
         
-//        if let is_deleted = is_deleted {
-//            print ( "is_deleted is:", is_deleted )
-//            let predicate = NSPredicate( format: "is_deleted == %@", false ) //>> Why does this produce a nil in the request?
-//            request.predicate = predicate
-//        }
-
         do {
             return try managedObjectContext.fetch( request ) as! [School]
         } catch {
@@ -39,6 +33,7 @@ class SchoolModel {
     }
     
     func getLastUpdatedAtOfSchools() -> Date {
+        print( "entity:", School.entity )
         let request = NSFetchRequest<NSFetchRequestResult>( entityName: "School" )
         let sortDescriptor = NSSortDescriptor( key: "updated_at", ascending: false )
         request.sortDescriptors = [sortDescriptor]
@@ -111,4 +106,8 @@ class SchoolModel {
     func saveContext() {
         appDelegate.saveContext()
     }
+}
+
+class StudentModel: SchoolModel {
+    
 }
