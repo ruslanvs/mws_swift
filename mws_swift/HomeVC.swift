@@ -27,8 +27,10 @@ class HomeVC: UIViewController {
                 self.tableView.reloadData()
             }
         }
+        for data in CoreDataInterface.shared.getAll(from: "School", entity: School.self ) {
+            print( "CoreDataInterface returned:", data.title )
+        }
         
-        print( "CoreDataInterface returned:", CoreDataInterface.shared.getAll(from: "School", entity: School.self ) )
         
     }
     

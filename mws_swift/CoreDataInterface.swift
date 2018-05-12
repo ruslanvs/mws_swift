@@ -15,8 +15,14 @@ class CoreDataInterface {
     
     static let shared = CoreDataInterface()
     
-    func getAll ( whereIsDeletedIs is_deleted: Bool? = nil, from entityName: String, entity: School.Type ) -> [NSManagedObject] {
-        let request = NSFetchRequest<NSFetchRequestResult>( entityName: entity.entity().name! )
+    func getAll<T> ( whereIsDeletedIs is_deleted: Bool? = nil, from entityName: String, entity: T.Type ) -> [T] {
+        
+//        guard let entity = entity as? T else {
+//            print( "error assigning the class" )
+//            return []
+//        }
+        
+        let request = NSFetchRequest<NSFetchRequestResult>( entityName: entityName )
         
         if is_deleted == false {
             let predicate = NSPredicate( format: "is_deleted == 0" ) //>> a workaround with a hardcoded parameter
@@ -24,7 +30,7 @@ class CoreDataInterface {
         }
         
         do {
-            return try managedObjectContext.fetch( request ) as! [NSManagedObject]
+            return try managedObjectContext.fetch( request ) as! [T]
         } catch {
             print( error )
             return []
