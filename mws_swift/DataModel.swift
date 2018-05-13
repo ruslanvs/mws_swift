@@ -33,7 +33,7 @@ class SchoolModel {
     }
     
     func getLastUpdatedAtOfSchools() -> Date {
-        print( "entity:", School.entity )
+        
         let request = NSFetchRequest<NSFetchRequestResult>( entityName: "School" )
         let sortDescriptor = NSSortDescriptor( key: "updated_at", ascending: false )
         request.sortDescriptors = [sortDescriptor]
@@ -93,7 +93,7 @@ class SchoolModel {
             coreDataSchool.is_deleted = jsonSchool.is_deleted
             coreDataSchool.created_at = jsonSchool.created_at
             coreDataSchool.updated_at = jsonSchool.updated_at
-            
+                        
         }
         saveContext()
     }

@@ -8,6 +8,31 @@
 
 import Foundation
 
+protocol JsonDecodedSql: Decodable {
+    var is_deleted: Bool {get}
+    var id: UUID {get}
+    var created_at: Date {get}
+    var updated_at: Date {get}
+}
+
+struct JsonDecodedSchoolStruct: Decodable, JsonDecodedSql  {
+    let is_deleted: Bool
+    let id: UUID
+    let created_at: Date
+    let updated_at: Date
+    let title: String
+}
+
+struct JsonDecodedStudentStruct: JsonDecodedSql, Decodable {
+    let is_deleted: Bool
+    let id: UUID
+    let created_at: Date
+    let updated_at: Date
+    let school_id: UUID
+    let name: String
+    let score: Decimal
+}
+
 struct jsonDecodedSchool: Decodable {
     let is_deleted: Bool
     let id: UUID
@@ -29,47 +54,55 @@ struct jsonDecodedStudent: Decodable {
 
 class APISyncController {
     
-//    static func syncStudents( completionHandler: @escaping () -> () ){
-//        print( "Sync" )
-//
-//        let lastUpdatedAtOfStudents = "\(StudentModel.shared.getLastUpdatedAtOfSchools())".replacingOccurrences(of: " ", with: "_")
-//        print( "Last updated_at date:", lastUpdatedAtOfStudents )
-//
-//        let urlString = "http://localhost:8000/students_updated_after/\(lastUpdatedAtOfStudents)"
-//
-//        guard let url = URL(string: urlString) else {
-//            print ("url setting error")
-//            return
-//        }
-//
-//        URLSession.shared.dataTask(with: url) { (data, response, err) in
-//            guard let data = data else {return}
-//
-//            let dateFormatter = DateFormatter()
-//            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSZ"
-//            let schoolsDecoder = JSONDecoder()
-//            schoolsDecoder.dateDecodingStrategy = .formatted(dateFormatter)
-//
-//            do {
-//                let schools = try
-//                    schoolsDecoder.decode([jsonDecodedSchool].self, from: data)
-//                print( "updated schools:", schools )
-//
-//                if schools.count > 0 {
-//                    _ = SchoolModel.shared.batchUpdateSchools( jsonSchools: schools )
-//                }
-//
-//            } catch let jsonDecodingErr {
-//                print( "JSON parsing error:", jsonDecodingErr )
-//            }
-//
-//            completionHandler()
-//
-//            }.resume()
-//    }
+    static func sync<CDT, JDT: JsonDecodedSql>( completionHandler: @escaping () -> (), entityName: String, coreDataEntity: CDT.Type, decodingType: JDT.Type ){
+    
+        print( "Generic Sync" )
+        
+        let lastUpdatedAtDate = "\(CoreDataInterface.shared.getLastUpdatedAtDate(entityName: entityName, type: coreDataEntity))".replacingOccurrences(of: " ", with: "_")
+        print( "Last updated_at date:", lastUpdatedAtDate )
+        
+        let entityNameForAPI = entityName.lowercased()
+        
+        let urlString = "http://localhost:8000/\(entityNameForAPI)s_updated_after/\(lastUpdatedAtDate)"
+        
+        guard let url = URL(string: urlString) else {
+            print ("url setting error")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, err) in
+            guard let data = data else {return}
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSZ"
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(dateFormatter)
+            
+            do {
+                let jsonItems = try
+                    decoder.decode([JDT].self, from: data)
+                print( "updated items:", jsonItems )
+                
+                if jsonItems.count > 0 {
+                    update( jsonItems: jsonItems, entityName: entityName, coreDataEntity: coreDataEntity )
+                    _ = CoreDataInterface.shared.batchUpdate( jsonItems: jsonItems, entityName: entityName, coreDataEntity: coreDataEntity )
+                }
+                
+            } catch let err {
+                print( "JSON parsing error:", err )
+            }
+            
+            completionHandler()
+            
+            }.resume()
+    }
+    
+    static func update<T, JDT>( jsonItems: [JDT], entityName: String, coreDataEntity: T.Type ) {
+        _ = CoreDataInterface.shared.batchUpdate( jsonItems: jsonItems, entityName: entityName, coreDataEntity: coreDataEntity )
+    }
     
     static func syncSchools( completionHandler: @escaping () -> () ){
-        print( "Sync" )
+        print( "Sync Schools" )
         
         let lastUpdatedAtOfSchools = "\(SchoolModel.shared.getLastUpdatedAtOfSchools())".replacingOccurrences(of: " ", with: "_")
         print( "Last updated_at date:", lastUpdatedAtOfSchools )
@@ -106,4 +139,10 @@ class APISyncController {
             
         }.resume()
     }
+}
+
+class SchoolAPISyncController: APISyncController {
+//    static func update<T, JDT>( jsonItems: [JDT], entityName: String, coreDataEntity: T.Type ) {
+//        _ = CoreDataInterface.shared.batchUpdate( jsonItems: jsonItems, entityName: entityName, coreDataEntity: coreDataEntity )
+//    }
 }
