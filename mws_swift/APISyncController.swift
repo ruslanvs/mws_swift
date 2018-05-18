@@ -15,7 +15,7 @@ protocol JsonDecodedSql: Decodable {
     var updated_at: Date {get}
 }
 
-struct JsonDecodedSchoolStruct: Decodable, JsonDecodedSql  {
+struct JsonDecodedSchoolStruct: JsonDecodedSql  {
     let is_deleted: Bool
     let id: UUID
     let created_at: Date
@@ -23,14 +23,14 @@ struct JsonDecodedSchoolStruct: Decodable, JsonDecodedSql  {
     let title: String
 }
 
-struct JsonDecodedStudentStruct: JsonDecodedSql, Decodable {
+struct JsonDecodedStudentStruct: JsonDecodedSql {
     let is_deleted: Bool
     let id: UUID
     let created_at: Date
     let updated_at: Date
     let school_id: UUID
     let name: String
-    let score: Decimal
+    let score: Int16
 }
 
 struct jsonDecodedSchool: Decodable {
@@ -85,7 +85,6 @@ class APISyncController {
                 
                 if jsonItems.count > 0 {
                     update( jsonItems: jsonItems, entityName: entityName, coreDataEntity: coreDataEntity )
-                    _ = CoreDataInterface.shared.batchUpdate( jsonItems: jsonItems, entityName: entityName, coreDataEntity: coreDataEntity )
                 }
                 
             } catch let err {
@@ -97,8 +96,7 @@ class APISyncController {
             }.resume()
     }
     
-    static func update<T, JDT>( jsonItems: [JDT], entityName: String, coreDataEntity: T.Type ) {
-        _ = CoreDataInterface.shared.batchUpdate( jsonItems: jsonItems, entityName: entityName, coreDataEntity: coreDataEntity )
+    class func update<T, JDT>( jsonItems: [JDT], entityName: String, coreDataEntity: T.Type ) {
     }
     
     static func syncSchools( completionHandler: @escaping () -> () ){
@@ -142,7 +140,13 @@ class APISyncController {
 }
 
 class SchoolAPISyncController: APISyncController {
-//    static func update<T, JDT>( jsonItems: [JDT], entityName: String, coreDataEntity: T.Type ) {
-//        _ = CoreDataInterface.shared.batchUpdate( jsonItems: jsonItems, entityName: entityName, coreDataEntity: coreDataEntity )
-//    }
+    override class func update<T, JDT>( jsonItems: [JDT], entityName: String, coreDataEntity: T.Type ) {
+        _ = SchoolCoreDataInterface.schoolSingleton.batchUpdate( jsonItems: jsonItems, entityName: entityName, coreDataEntity: coreDataEntity )
+    }
+}
+
+class StudentAPISyncController: APISyncController {
+    override class func update<T, JDT>( jsonItems: [JDT], entityName: String, coreDataEntity: T.Type ) {
+        _ = StudentCoreDataInterface.studentSingleton.batchUpdate( jsonItems: jsonItems, entityName: entityName, coreDataEntity: coreDataEntity )
+    }
 }

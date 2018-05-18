@@ -33,6 +33,25 @@ class CoreDataInterface {
         }
     }
     
+    func getOne<T>( withId id: UUID, fromEntityName entityName: String, type: T.Type ) -> T? {
+    
+        let request = NSFetchRequest<NSFetchRequestResult>( entityName: entityName )
+        let predicate = NSPredicate( format: "id == %@", id as CVarArg )
+        request.predicate = predicate
+        
+        do {
+            let items = try managedObjectContext.fetch( request ) as! [T]
+            if items.count > 0 {
+                return items[0]
+            } else {
+                return nil
+            }
+        } catch {
+            print( error )
+            return nil
+        }
+    }
+    
     func getLastUpdatedAtDate<T>(entityName: String, type: T.Type) -> Date {
 
         let request = NSFetchRequest<NSFetchRequestResult>( entityName: entityName )
@@ -90,35 +109,18 @@ class CoreDataInterface {
                 return
             }
             
-            print ("we made it all the way here. Core Data item:", coreDataItem)
-            
-//            (coreDataItem as! School).title = (jsonItem as! JsonDecodedSchoolStruct).title
-//            (coreDataItem as! School).id = (jsonItem as! JsonDecodedSchoolStruct).id
-//            (coreDataItem as! School).is_deleted = (jsonItem as! JsonDecodedSchoolStruct).is_deleted
-//            (coreDataItem as! School).created_at = (jsonItem as! JsonDecodedSchoolStruct).created_at
-//            (coreDataItem as! School).updated_at = (jsonItem as! JsonDecodedSchoolStruct).updated_at
-            
-            assignValuesByKeys( coreDataItem: coreDataItem, jsonItem: jsonItem )
-
-//            let mirror = Mirror(reflecting: coreDataItem)
-//            for child in mirror.children {
-//                print( child.label, child.value)
-//            (coreDataItem as! School).child.label
-//
-//            }
-            
-            
-//            coreDataItem.title = jsonItem.title
-//            coreDataItem.id = jsonItem.id
-//            coreDataItem.is_deleted = jsonItem.is_deleted
-//            coreDataItem.created_at = jsonItem.created_at
-//            coreDataItem.updated_at = jsonItem.updated_at
-            
+            let item = assignValuesByKeys( coreDataItem: coreDataItem, jsonItem: jsonItem )
+            setRelationships( for: item )
         }
         saveContext()
     }
     
-    func assignValuesByKeys<T, JDT>( coreDataItem: T, jsonItem: JDT ) {
+    func assignValuesByKeys<T, JDT>( coreDataItem: T, jsonItem: JDT ) -> T {
+        print( "an abstract method hit" )
+        return coreDataItem
+    }
+    
+    func setRelationships<T>( for item: T ){
         print( "an abstract method hit" )
     }
 
@@ -130,16 +132,52 @@ class CoreDataInterface {
     func saveContext() {
         appDelegate.saveContext()
     }
-    
 }
 
 class SchoolCoreDataInterface: CoreDataInterface {
     
-    override func assignValuesByKeys<T, JDT>(coreDataItem: T, jsonItem: JDT) {
-        (coreDataItem as! School).title = (jsonItem as! JsonDecodedSchoolStruct).title
-        (coreDataItem as! School).id = (jsonItem as! JsonDecodedSchoolStruct).id
-        (coreDataItem as! School).is_deleted = (jsonItem as! JsonDecodedSchoolStruct).is_deleted
-        (coreDataItem as! School).created_at = (jsonItem as! JsonDecodedSchoolStruct).created_at
-        (coreDataItem as! School).updated_at = (jsonItem as! JsonDecodedSchoolStruct).updated_at
+    static let schoolSingleton = SchoolCoreDataInterface()
+    
+    override func assignValuesByKeys<T, JDT>(coreDataItem: T, jsonItem: JDT) -> T {
+        print( "Schools assign values by keys function" )
+        guard let school = coreDataItem as? School else {return coreDataItem}
+        guard let jsonItem = jsonItem as? JsonDecodedSchoolStruct else {return coreDataItem}
+        
+        school.title = jsonItem.title
+        school.id = jsonItem.id
+        school.is_deleted = jsonItem.is_deleted
+        school.created_at = jsonItem.created_at
+        school.updated_at = jsonItem.updated_at
+        
+        return coreDataItem
+    }    
+}
+
+class StudentCoreDataInterface: CoreDataInterface {
+    
+    static let studentSingleton = StudentCoreDataInterface()
+    
+    override func assignValuesByKeys<T, JDT>(coreDataItem: T, jsonItem: JDT) -> T {
+        print( "Student assign values by keys function" )
+        
+        guard let student = coreDataItem as? Student else {return coreDataItem}
+        guard let jsonItem = jsonItem as? JsonDecodedStudentStruct else {return coreDataItem}
+        
+        student.name = jsonItem.name
+        student.score = jsonItem.score
+        student.school_id = jsonItem.school_id
+        student.id = jsonItem.id
+        student.is_deleted = jsonItem.is_deleted
+        student.created_at = jsonItem.created_at
+        student.updated_at = jsonItem.updated_at
+        
+        return coreDataItem
+    }
+    
+    override func setRelationships<T>( for item: T ){
+        guard let student = item as? Student else {return}
+        guard let school_id = student.school_id else {return}
+        let school = self.getOne(withId: school_id, fromEntityName: "School", type: School.self)
+        student.school = school
     }
 }
