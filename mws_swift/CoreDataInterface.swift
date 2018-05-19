@@ -11,8 +11,7 @@ import CoreData
 
 class CoreDataInterface {
     
-    private var managedObjectContext = ( UIApplication.shared.delegate as! AppDelegate ).persistentContainer.viewContext
-    private var appDelegate = ( UIApplication.shared.delegate as! AppDelegate )
+    var managedObjectContext = ( UIApplication.shared.delegate as! AppDelegate ).persistentContainer.viewContext
     
     static let shared = CoreDataInterface()
     
@@ -81,8 +80,21 @@ class CoreDataInterface {
         return date
     }
     
+//    func delete( item: School ) {
+//        managedObjectContext.delete( item )
+//        saveContext()
+//    }
+    
+    func saveContext() {
+        let appDelegate = ( UIApplication.shared.delegate as! AppDelegate )
+        appDelegate.saveContext()
+    }
+}
+
+class CoreDataAbstractInterface: CoreDataInterface {
+    
     func batchUpdate<T, JDT>( jsonItems: [JDT], entityName: String, coreDataEntity: T.Type ) {
-        print ("Generic batch update")
+        
         let request = NSFetchRequest<NSFetchRequestResult>( entityName: entityName )
         
         for jsonItem in jsonItems {
@@ -116,30 +128,20 @@ class CoreDataInterface {
     }
     
     func assignValuesByKeys<T, JDT>( coreDataItem: T, jsonItem: JDT ) -> T {
-        print( "an abstract method hit" )
+        print( "ERROR: an abstract method hit" )
         return coreDataItem
     }
     
     func setRelationships<T>( for item: T ){
         print( "an abstract method hit" )
     }
-
-//    func delete( item: School ) {
-//        managedObjectContext.delete( item )
-//        saveContext()
-//    }
-    
-    func saveContext() {
-        appDelegate.saveContext()
-    }
 }
 
-class SchoolCoreDataInterface: CoreDataInterface {
+class SchoolCoreDataInterface: CoreDataAbstractInterface {
     
     static let schoolSingleton = SchoolCoreDataInterface()
     
     override func assignValuesByKeys<T, JDT>(coreDataItem: T, jsonItem: JDT) -> T {
-        print( "Schools assign values by keys function" )
         guard let school = coreDataItem as? School else {return coreDataItem}
         guard let jsonItem = jsonItem as? JsonDecodedSchoolStruct else {return coreDataItem}
         
@@ -150,16 +152,14 @@ class SchoolCoreDataInterface: CoreDataInterface {
         school.updated_at = jsonItem.updated_at
         
         return coreDataItem
-    }    
+    }
 }
 
-class StudentCoreDataInterface: CoreDataInterface {
+class StudentCoreDataInterface: CoreDataAbstractInterface {
     
     static let studentSingleton = StudentCoreDataInterface()
     
     override func assignValuesByKeys<T, JDT>(coreDataItem: T, jsonItem: JDT) -> T {
-        print( "Student assign values by keys function" )
-        
         guard let student = coreDataItem as? Student else {return coreDataItem}
         guard let jsonItem = jsonItem as? JsonDecodedStudentStruct else {return coreDataItem}
         

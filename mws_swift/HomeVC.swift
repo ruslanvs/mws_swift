@@ -26,9 +26,9 @@ class HomeVC: UIViewController {
         SchoolAPISyncController.sync (completionHandler: {
             
             StudentAPISyncController.sync (completionHandler: {
-                for data in CoreDataInterface.shared.getAll(fromEntityName: Student.entity().name!, type: Student.self ) {
-                    print( "CoreDataInterface returned:", data.name, data.score, data.school?.title )
-                }
+//                for data in CoreDataInterface.shared.getAll(fromEntityName: Student.entity().name!, type: Student.self ) {
+//                    print( "CoreDataInterface returned:", data.name, data.score, data.school?.title )
+//                }
             }, entityName: Student.self.entity().name!, coreDataEntity: Student.self, decodingType: JsonDecodedStudentStruct.self)
             
             DispatchQueue.main.async {
